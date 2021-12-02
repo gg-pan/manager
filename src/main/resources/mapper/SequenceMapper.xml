@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gg.manager.dao.sequence.SequenceMapper">
+    <insert id="save" parameterType="com.gg.manager.entity.sequence.SequencePO">
+        INSERT INTO manager_sequence
+        (id, create_on, update_on, "version", ref_no, latest, status, "module", "sequence", prefix)
+        VALUES(#{id}, #{createOn}, #{updateOn}, #{version}, #{refNo}, #{latest}, #{status}, #{module}, #{sequence}, #{prefix})
+    </insert>
+
+    <update id="update" parameterType="com.gg.manager.entity.sequence.SequencePO">
+        UPDATE manager_sequence
+        SET update_on = #{updateOn}, "version" = #{version}, "sequence" = #{sequence}
+        WHERE ref_no = #{refNo} AND latest = TRUE AND status = TRUE;
+    </update>
+
+    <select id="findSequenceByModule" resultType="com.gg.manager.entity.sequence.SequencePO" parameterType="string">
+        SELECT * FROM manager_sequence WHERE module = #{module}
+    </select>
+</mapper>
