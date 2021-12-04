@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Set;
+
 @ControllerAdvice
 public class ControllerExceptionHandler {
 
@@ -47,4 +49,13 @@ public class ControllerExceptionHandler {
         return new Result<>(ResultConstant.STATUS_TOKEN_EXPIRED, ResultConstant.TOKEN_EXPIRED_EXCEPTION);
     }
 
+    /**
+     * Handle token time out exception
+     * @return
+     */
+    @ResponseBody
+    @ExceptionHandler({ValidationException.class})
+    public Result<Set<String>> validationException(ValidationException e) {
+        return new Result<>(ResultConstant.STATUS_VALIDATION_ERROR, ResultConstant.VALIDATION_EXCEPTION, e.getValidationMessageSet());
+    }
 }

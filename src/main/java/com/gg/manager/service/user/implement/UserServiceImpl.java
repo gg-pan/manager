@@ -6,12 +6,15 @@ import com.gg.manager.entity.user.UserPO;
 import com.gg.manager.service.BaseServiceImpl;
 import com.gg.manager.service.user.UserService;
 import com.gg.manager.utils.JWTUtil;
+import com.gg.manager.validation.UserValidation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 @Service
 public class UserServiceImpl extends BaseServiceImpl<UserPO> implements UserService {
@@ -20,6 +23,9 @@ public class UserServiceImpl extends BaseServiceImpl<UserPO> implements UserServ
 
     @Resource
     private UserMapper userMapper;
+
+    @Resource
+    private UserValidation userValidation;
 
     @Override
     public UserPO findUserById(String id) {
@@ -60,4 +66,19 @@ public class UserServiceImpl extends BaseServiceImpl<UserPO> implements UserServ
         return userMapper;
     }
 
+    @Override
+    public Set<String> validation(UserPO userPO) {
+        Set<String> messageSet = new HashSet<>();
+        String mandatoryValidationMessage = userValidation.mandatoryValidation(userPO);
+        String uniqueValidationMessage = userValidation.uniqueValidation(userPO);
+
+        if (StringUtils.isNotEmpty(mandatoryValidationMessage)) {
+            messageSet.add(mandatoryValidationMessage);
+        }
+        if (StringUtils.isNotEmpty(uniqueValidationMessage)) {
+            messageSet.add(uniqueValidationMessage);
+        }
+
+        return messageSet;
+    }
 }

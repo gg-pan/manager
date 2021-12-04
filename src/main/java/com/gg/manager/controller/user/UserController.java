@@ -4,6 +4,7 @@ import com.gg.manager.controller.AbstractController;
 import com.gg.manager.converter.UserConverter;
 import com.gg.manager.entity.user.UserPO;
 import com.gg.manager.entity.user.UserVO;
+import com.gg.manager.exception.ValidationException;
 import com.gg.manager.response.Result;
 import com.gg.manager.service.user.UserService;
 import org.springframework.http.HttpStatus;
@@ -36,7 +37,7 @@ public class UserController extends AbstractController {
 
     @ResponseBody
     @PostMapping("/save")
-    public UserVO save(@RequestBody UserVO userVO) {
+    public UserVO save(@RequestBody UserVO userVO) throws ValidationException {
         userService.save(UserConverter.INSTANCE.toUserPO(userVO));
         UserPO userPO = userService.findUserByName(userVO.getName());
         return UserConverter.INSTANCE.toUserVO(userPO);

@@ -19,7 +19,6 @@ public class SequenceServiceImpl extends BaseServiceImpl<SequencePO> implements 
     @Resource
     private SequenceMapper sequenceMapper;
 
-
     @Override
     public BaseMapper<SequencePO> getMapper() {
         return sequenceMapper;
